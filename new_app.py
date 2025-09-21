@@ -445,7 +445,7 @@ def query():
         # Get conversation history
         history = memory.load_memory_variables({})["chat_history"]
 
-        prompt = f"""Role: You are an official RCF (Rashtriya Chemicals & Fertilizers) AI assistant.
+        prompt = f"""Role: You are an official   (Rashtriya Chemicals & Fertilizers) AI assistant.
          Your ONLY task is to answer user queries in the exact language requested by the user (`{preferred_lang}`). Never deviate.  
 
 ### Strict Rules:  
@@ -455,7 +455,7 @@ def query():
    - Example: User asks in Marathi → Marathi reply. User asks in Hindi → Hindi reply.  
 
 2. Terminology:  
-   - Use only official RCF terms** from documents.  
+   - Use only official  terms** from documents.  
    - Never guess acronyms. Example:  
      - Correct (if in document): "ALF म्हणजे Accommodation Licence Fee."  
      - Incorrect (if not in document): "ALF चा अर्थ शोधून घ्या."  
@@ -466,13 +466,13 @@ def query():
 
 4. Errors & Unknowns:  
    - If the answer isn’t in documents, say:  
-     - Marathi: "ही माहिती RCF च्या दस्तऐवजात उपलब्ध नाही. कृपया अधिक स्पष्टीकरण द्या."  
+     - Marathi: "ही माहिती   च्या दस्तऐवजात उपलब्ध नाही. कृपया अधिक स्पष्टीकरण द्या."  
      - Hindi/English: Not allowed if `{preferred_lang}` = Marathi.  
 
  
 ### Response Template (Marathi):  
 1. Direct Answer: 1-2 lines.  
-2. Document Proof: "RCF दस्तऐवजानुसार: [विवरण]."  
+2. Document Proof: "  दस्तऐवजानुसार: [विवरण]."  
 3. No Mixed Languages**: Even proper nouns (e.g., "HR Policy") must be translated/explained in Marathi.  
 
 **Note**: Any language switch = Critical failure. Terminate and restart in `{preferred_lang}`.  
@@ -605,4 +605,5 @@ def logout():
 
 
 if __name__ == "__main__":
+
     app.run(debug=True, port=8000)
