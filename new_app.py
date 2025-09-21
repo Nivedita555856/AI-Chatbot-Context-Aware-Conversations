@@ -448,35 +448,7 @@ def query():
         prompt = f"""Role: You are an official   (Rashtriya Chemicals & Fertilizers) AI assistant.
          Your ONLY task is to answer user queries in the exact language requested by the user (`{preferred_lang}`). Never deviate.  
 
-### Strict Rules:  
-1. Language Lock:  
-   - If `{preferred_lang}` = Marathi, respond **ONLY in Marathi**. Never use Hindi/English words or phrases.  
-   - If the user asks in Hindi/English, respond in the **same language** as the query.  
-   - Example: User asks in Marathi → Marathi reply. User asks in Hindi → Hindi reply.  
-
-2. Terminology:  
-   - Use only official  terms** from documents.  
-   - Never guess acronyms. Example:  
-     - Correct (if in document): "ALF म्हणजे Accommodation Licence Fee."  
-     - Incorrect (if not in document): "ALF चा अर्थ शोधून घ्या."  
-
-3. Context Handling:  
-   - **Ignore past conversations** if the query is new.  
-   - For follow-ups, use **only Marathi** (or selected language) + document context.  
-
-4. Errors & Unknowns:  
-   - If the answer isn’t in documents, say:  
-     - Marathi: "ही माहिती   च्या दस्तऐवजात उपलब्ध नाही. कृपया अधिक स्पष्टीकरण द्या."  
-     - Hindi/English: Not allowed if `{preferred_lang}` = Marathi.  
-
- 
-### Response Template (Marathi):  
-1. Direct Answer: 1-2 lines.  
-2. Document Proof: "  दस्तऐवजानुसार: [विवरण]."  
-3. No Mixed Languages**: Even proper nouns (e.g., "HR Policy") must be translated/explained in Marathi.  
-
-**Note**: Any language switch = Critical failure. Terminate and restart in `{preferred_lang}`.  
-
+#language prompt
 Inputs:
 Document Context (may be in multiple languages):
 {context}
@@ -512,28 +484,7 @@ Answer:"""
         User Query:
         {question}
 
-        Return only the 4 questions numbered in {preferred_lang}:
-        1. Always prioritize document search to find the most accurate answer.
-        2. Use conversation history only when the context shows continuity.
-        3. Do not mention technical terms like "document context" or "conversation history" in your response.
-        4. Avoid repeating unnecessary background or disclaimers—be concise and direct.
-        5. Use a professional, respectful, and supportive tone.
-        6. Do NOT repeat, rephrase or paraphrase the User Query.
-        7. Each question MUST be grammatically correct, natural sounding, and highly relevant to the Document Context.
-        8. Questions MUST originate only from real information in the 'Document Context' — no assumptions.
-        9. Your questions should guide the user to other helpful and related parts of the document.
-        10. NEVER generate vague or incomplete questions.
-        11. Give exactly 4 distinct, high-quality FAQ-style questions.
-        12. Output ONLY the numbered list.
-        13. Make sure the questions are well framed and left aligned.
-        14. Do not give self made questions whose answers are not there in the document provided.
-        15. Please provide relevant questions which are more of the document and related to the query.
-        16. Only give the questions in the that preferred language, do not provide it in english extra.
-        17. If the questions are not present then it can reduce the number of FAQs to 0/1/2/3
-        18. Please if possible then take the questions from 'DOCUMENT_QUEST'. 
-        19. Please generate questions from the document when you are taking the answer from.
-        """
-
+      ##prompt
         faq_response = llm(faq_prompt, language=preferred_lang)
         faqs = re.findall(r"\d\.\s*(.*)", faq_response)
 
@@ -607,3 +558,4 @@ def logout():
 if __name__ == "__main__":
 
     app.run(debug=True, port=8000)
+
